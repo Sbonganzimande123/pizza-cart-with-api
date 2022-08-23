@@ -105,7 +105,7 @@ paymentAmount : 0,
   },
        
        message : 'Eating pizzas',
-       username : 'nzimande',
+       username : 'Sbonga',
        pizzas : [],
        cartId : '',
        cart : { total : 0 },
