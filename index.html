@@ -17,14 +17,63 @@
       body {
          background-color: bisque;
       }
-      
+
       .cart{
          border: 1px solid;
 
          background-color: lightskyblue;
          padding: 1em;
          margin: 1em;
-         width: 15em;
+         width: 45%;
+      }
+
+      @media(min-width: 760px) {
+      .featuredPizzas{  
+        display: flex; 
+        width: 50%;  
+       }
+
+      .featuredSmall {
+         border: 1px solid;
+         background-color: brown;
+         height: 170px;
+   width: 150%;
+   left: 273.33685302734375px;
+   top: -210.040771484375px;
+       padding: 1em;
+       margin: 1em;
+       border-radius: 1em;
+      }
+
+      .featuredMedium {
+         border: 1px solid;
+         background-color: aliceblue;
+         height: 170px;
+   width: 150%;
+   left: 273.33685302734375px;
+   top: -210.040771484375px;
+       padding: 1em;
+       margin: 1em;
+       border-radius: 1em;
+      }
+
+      .featuredLarge {
+         border: 1px solid;
+         background-color: lightgrey;
+         height: 170px;
+   width: 150%;
+   left: 273.33685302734375px;
+   top: -210.040771484375px;
+       padding: 1em;
+       margin: 1em;
+       border-radius: 1em;
+      }
+
+      .strong {
+         margin-bottom: 1em;
+      }
+
+
       }
     </style>
     
@@ -53,27 +102,99 @@
       <div>
          Cart total: <strong x-text="cart.total"></strong>
       </div>
+
    
       <div class="cart">
       <table>
          <tr>
             <th>Flavour</th>
             <th>Qty</th>
+            <th></th>
+            <th></th>
             <th>Total</th>
          </tr>
          <template x-for="pizza in cart.pizzas" >
             <tr>
                <td x-text="pizza.flavour" ></td>
                <td x-text="pizza.qty" ></td>
+               <td>
+                  <button x-on:click="add(pizza)" >+</button>
+               </td>
+               <td>
+                  <button x-on:click="subtract(pizza)" >-</button>
+               </td>
                <td x-text="pizza.total" ></td>
+               
+            
             </tr>
+
+            
+
          </template>
+
+         <tr >
+            <td colspan="4" >
+                <div x-show="cart.total>0">
+            <button class="checkb" x-show="!payNow" @click="allPizzas=false, buys=false, payNow=true, checkb=false"> 
+                <img src="https://pngimg.com/uploads/shopping_cart/shopping_cart_PNG49.png" width=30 alt="">
+                checkout
+               </button>
+         </div>
+            </td>
+            <td>
+                <div x-show="payNow">
+                    <strong class="feedback" @click="payNow=false" x-text="returnFeedback"><br></strong>
+                    <div>
+                        <label for="">Payment Amount</label>
+                        <input class="total" type="number" placeholder="amount to pay" x-model="paymentAmount">
+                    </div><br>
+                    
+                <button @click="makePayment()">pay</button>
+                </div>
+            </td>
+         </tr>
       </table>
    </div>
    
-   
    </div>
 
+   <div class="featuredPizzas" >
+      <div class="featuredSmall">
+         <div>
+             <td>
+             <strong x-text="smallpizzas.flavour"></strong><br>
+             <img src="Small_Image_Featured.jpg" height="80" alt="">
+             <strong>Small featured</strong>
+                 <div x-text="smallpizzas.price"></div>
+                 
+             <div>
+                 <button x-show="buys" @click="add(smallpizzas)">buy</button>
+             </div>
+         </div>
+      </div>
+
+   <div class="featuredMedium">
+      <strong x-text="mediumFeatured.flavour"></strong><br>
+      <img src="Medium_Image_Featured.jpg" height="80" alt="">
+      <strong>Medium featured</strong>
+          <div x-text="mediumFeatured.price"></div>
+         
+      <div>
+          <button x-show="buys" @click="add(mediumFeatured)">buy</button>
+      </div>
+  </div>
+
+  <div class="featuredLarge">
+      <strong x-text="largeFeatured.flavour"></strong><br>
+      <img src="Large_Image_Featured.jpg" height="80" alt="">
+      <strong>Large featured</strong>
+         <div x-text="largeFeatured.price"></div>
+          
+      <div>
+          <button x-show="buys" @click="add(largeFeatured)">buy</button>
+      </div>
+  </div>
+   </div>
 
    <table>
       <template x-for="pizza in pizzas" >
@@ -85,14 +206,17 @@
             <td x-text="pizza.size" ></td>
             <td x-text="pizza.price"></td>
             <td>
-            <button x-on:click="add(pizza)" >Buy</button>
+            <button x-on:click="add(pizza)" x-show="buys" >Buy</button>
             </td>
             </tr>
       </template>
+
+  
+
    </table>
 </div>
 
-   
  </div>
 </body>
 </html>
+
